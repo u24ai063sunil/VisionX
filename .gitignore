@@ -1,0 +1,24 @@
+# Datasets (too large / re-downloadable from source)
+football-detection-4-1/
+*.zip
+
+# Model weights (link externally if large; keep small ones tracked)
+*.pt
+!models/best.pt
+
+# Video files (keep only the final demo)
+*.mp4
+!outputs/demo_video.mp4
+*.avi
+
+# Jupyter / Kaggle
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+.vscode/
+
+# Large annotation files
+*.json.bak
