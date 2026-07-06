@@ -1,7 +1,7 @@
 # Tactics Cam — Football Tactical Intelligence Pipeline
 
 **ACM RVCE Code Cup 2026 — Computer Vision Track — Problem Statement 1: "Tactics Cam"**
-Team: Alpha NLP
+Team: VisionX
 
 A computer vision pipeline that turns raw football broadcast footage into tactical insight — player/ball detection, player tracking, team assignment, and pitch-level tactical analysis (team shape, zone occupancy).
 
@@ -98,6 +98,7 @@ Football analysts extract tactical insights (formations, zone occupancy, pressin
 ├── outputs/
 │   ├── detection_samples/              # Annotated detection screenshots
 │   ├── tactical_minimaps/              # Team shape / zone visualizations
+|   |__ tracking_team_assignment/       # team assignment / zone occupancy
 │   └── demo_video.mp4                  # End-to-end demo clip
 ├── docs/
 │   ├── architecture.png                # System diagram (see above)
@@ -141,5 +142,8 @@ See `notebooks/tactics_cam_pipeline.ipynb` for the full pipeline, cell by cell, 
 
 ## Team
 
-Team Alpha NLP — ACM RVCE Code Cup 2026, Computer Vision Track
-*(Add member names, USNs, branch/year here)*
+Team VisonX — ACM RVCE Code Cup 2026, Computer Vision Track
+Sunil Jaat , U24AI063 , AI 3rd Year
+Md Aftab Siddiqui , U24AI058 , AI 3rd Year
+Aarju Pawara , U24AI030 , AI 3rd Year
+Vaishnav Mahla , U24AI120 , CSE 3rd Year
