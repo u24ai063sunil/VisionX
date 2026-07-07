@@ -21,11 +21,13 @@ Football analysts extract tactical insights (formations, zone occupancy, pressin
 | Multi-object tracking (persistent IDs) | ✅ Working | Real DFL broadcast footage |
 | Team assignment (jersey color clustering) | ✅ Working — 98% track consistency | Real DFL broadcast footage |
 | Tactical minimap (team shape, convex hulls) | ✅ Working | SoccerTrack v2 ground-truth pitch coordinates |
-| Zone occupancy (defensive/mid/attacking thirds) | ✅ Working | SoccerTrack v2 ground-truth pitch coordinates |
-| Zone occupancy proxy (frame-relative thirds) | ✅ Working | Real DFL broadcast footage (pixel-space approximation) |
+| Zone occupancy (defensive/mid/attacking thirds, real pitch coords) | ✅ Working | SoccerTrack v2 ground-truth pitch coordinates |
+| Team shape (convex hull, pixel-space) on real footage | ✅ Working | Real DFL broadcast footage (frame-relative, no calibration needed) |
+| Zone occupancy proxy (frame-relative thirds) on real footage | ✅ Working | Real DFL broadcast footage (pixel-space approximation) |
+| Live annotated demo video (boxes + IDs + team shape + zone chart + ball indicator) | ✅ Working | Real DFL broadcast footage |
 | Homography (pixel → real pitch coordinates on live footage) | ⏳ Not yet implemented | — |
 
-**Honest scope note:** the tactical-reasoning layer (team shape, real zone occupancy) is fully validated against ground-truth pitch coordinates from SoccerTrack v2. Detection, tracking, and team assignment are fully validated on real, unseen DFL broadcast footage. The bridge between the two — mapping detections on live footage into real pitch coordinates via homography — was scoped as a stretch goal and is documented as future work rather than shipped as an unreliable approximation. See `docs/limitations.md` for details.
+**Honest scope note:** the tactical-reasoning layer (team shape, zone occupancy) is validated in two ways: (1) against ground-truth pitch coordinates from SoccerTrack v2, proving the logic itself is correct, and (2) directly on our own detections/tracking/team-clustering on real, unseen DFL broadcast footage, using pixel-space (frame-relative) positions rather than real pitch meters. The one piece we chose not to ship is homography — mapping live-footage detections into true pitch coordinates. We attempted manual calibration and automated pitch-line detection during the sprint, found both numerically unstable or too noisy to trust, and rather than ship a fragile result, we're treating it as our clearly defined next milestone. See `docs/limitations.md` for the full account.
 
 ---
 
@@ -79,6 +81,11 @@ Football analysts extract tactical insights (formations, zone occupancy, pressin
 - Team shape (convex hull) and zone occupancy computed directly from real 2D pitch coordinates
 - Demonstrated team-shape evolution across a 4-frame, ~9-second sequence
 
+**Tactical layer (real DFL broadcast footage, pixel-space, no calibration):**
+- Team shape (convex hull) and zone occupancy computed directly from our own detection + tracking + team-clustering output, using frame-relative pixel positions
+- Rendered live, frame-by-frame, into a full annotated demo video with an on-screen stats panel (live team counts, zone occupancy bar chart, ball-detection indicator, timestamp)
+- Clearly labeled throughout as frame-relative rather than true pitch geometry, since no camera calibration was performed for this footage
+
 ---
 
 ## Repository Structure
@@ -98,7 +105,7 @@ Football analysts extract tactical insights (formations, zone occupancy, pressin
 ├── outputs/
 │   ├── detection_samples/              # Annotated detection screenshots
 │   ├── tactical_minimaps/              # Team shape / zone visualizations
-|   |__ tracking_team_assignment/       # team assignment / zone occupancy
+|   |-- tracking_team_assignment/       # team tracking /zone occupancy             
 │   └── demo_video.mp4                  # End-to-end demo clip
 ├── docs/
 │   ├── architecture.png                # System diagram (see above)
@@ -146,4 +153,4 @@ Team VisonX — ACM RVCE Code Cup 2026, Computer Vision Track
 Sunil Jaat , U24AI063 , AI 3rd Year
 Md Aftab Siddiqui , U24AI058 , AI 3rd Year
 Aarju Pawara , U24AI030 , AI 3rd Year
-Vaishnav Mahla , U24AI120 , CSE 3rd Year
+Vaishnav Mahla , U24CS120 , CSE 3rd Year
