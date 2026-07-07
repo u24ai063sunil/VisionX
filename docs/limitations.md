@@ -14,10 +14,13 @@ To connect the two, we would need a homography transform: mapping pixel-space de
 
 We attempted manual calibration during the sprint and found it produced numerically unstable results when calibration points were closely clustered in one image region (e.g. just the goal box) — small pixel errors get massively amplified when extrapolating across the full pitch. A wider, well-distributed set of landmarks (e.g. center circle + both penalty boxes) is needed for a stable result, and reliably identifying such landmarks by eye across arbitrary broadcast angles proved to be a bigger task than the remaining sprint time allowed.
 
+We also attempted an automated approach: masking the pitch region by color and running Hough line detection within it to auto-locate pitch markings. This also failed in practice — the pitch color mask picked up large sections of crowd, advertising boards, and off-pitch elements under real broadcast lighting conditions, producing hundreds of spurious "line segments" rather than clean pitch lines. Robust pitch-line detection under varying stadium lighting is a non-trivial CV sub-problem in its own right (entire research papers address just this), not something reliably solvable in a time-boxed sprint slot.
+
 Rather than ship an unstable or misleading pixel-to-pitch mapping, we chose to:
 - Fully validate the tactical logic on ground-truth data (proving the *reasoning* is correct)
 - Fully validate detection/tracking/team-assignment on real, unseen footage (proving the *perception* generalizes)
-- Build an honest, clearly-labeled **pixel-space zone proxy** (frame-relative left/middle/right thirds) as a stopgap tactical signal on real footage, explicitly NOT claiming real pitch coordinates
+- Build an honest, clearly-labeled **pixel-space tactical layer** (team shape via convex hull + frame-relative left/middle/right zone occupancy) directly on our own detections on real footage, explicitly NOT claiming real pitch coordinates
+- Render this into a full annotated demo video with a live stats panel, so the tactical signal is visibly demonstrated on unseen broadcast footage even without calibration
 - Document the homography bridge as the clear next milestone
 
 ## 3. Team assignment consistency
